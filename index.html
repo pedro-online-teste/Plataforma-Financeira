@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plataforma Financeira SPA</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header role="banner" aria-label="Cabeçalho principal">
+        <h1>Plataforma Financeira</h1>
+        <nav role="navigation" aria-label="Menu principal">
+            <ul id="nav-menu" class="hidden">
+                <li><button type="button" data-view="dashboard" aria-controls="dashboard-section" aria-selected="false" tabindex="0">Dashboard</button></li>
+                <li><button type="button" data-view="reports" aria-controls="reports-section" aria-selected="false" tabindex="0">Relatórios</button></li>
+                <li><button type="button" data-view="investments" aria-controls="investments-section" aria-selected="false" tabindex="0">Investimentos</button></li>
+                <li><button type="button" id="logout-btn" aria-label="Sair da sessão">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        <!-- Login Section -->
+        <section id="login-section" role="region" aria-label="Seção de login">
+            <form id="login-form" aria-describedby="login-desc" novalidate>
+                <h2>Entrar</h2>
+                <p id="login-desc">Informe seu usuário para acessar a plataforma.</p>
+
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" aria-required="true" autocomplete="username" required minlength="3" maxlength="30" />
+
+                <button type="submit" id="login-submit">Entrar</button>
+                <p id="login-error" class="error-message" role="alert" aria-live="assertive"></p>
+            </form>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" role="region" aria-label="Painel de controle" class="hidden" tabindex="-1">
+            <h2>Dashboard</h2>
+            <div class="dashboard-summary">
+                <div>
+                    <h3>Receitas</h3>
+                    <p id="total-income">R$ 0,00</p>
+                </div>
+                <div>
+                    <h3>Despesas</h3>
+                    <p id="total-expenses">R$ 0,00</p>
+                </div>
+                <div>
+                    <h3>Investimentos</h3>
+                    <p id="total-investments">R$ 0,00</p>
+                </div>
+                <div>
+                    <h3>Saldo</h3>
+                    <p id="balance">R$ 0,00</p>
+                </div>
+            </div>
+            <section aria-label="Adicionar nova transação">
+                <form id="transaction-form" novalidate>
+                    <h3>Adicionar Transação</h3>
+
+                    <label for="transaction-type">Tipo</label>
+                    <select id="transaction-type" name="transaction-type" required aria-required="true">
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="income">Receita</option>
+                        <option value="expense">Despesa</option>
+                    </select>
+
+                    <label for="transaction-amount">Valor (R$)</label>
+                    <input type="number" id="transaction-amount" name="transaction-amount" min="0.01" step="0.01" required aria-required="true" placeholder="0,00" />
+
+                    <label for="transaction-date">Data</label>
+                    <input type="date" id="transaction-date" name="transaction-date" max="" required aria-required="true" />
+
+                    <label for="transaction-category">Categoria</label>
+                    <input type="text" id="transaction-category" name="transaction-category" maxlength="30" placeholder="Ex: Alimentação" />
+
+                    <button type="submit">Adicionar</button>
+                    <p id="transaction-error" class="error-message" role="alert" aria-live="assertive"></p>
+                </form>
+            </section>
+
+            <section aria-label="Gráficos financeiros">
+                <h3>Gráficos de Despesas e Receitas</h3>
+                <div class="chart-container">
+                <canvas id="income-expense-chart" role="img" aria-label="Gráfico de receitas e despesas"></canvas>
+                </div>
+            </section>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports-section" role="region" aria-label="Relatórios mensais" class="hidden" tabindex="-1">
+            <h2>Relatórios Mensais</h2>
+            <form id="report-filter-form" aria-label="Filtro de relatórios por data" novalidate>
+                <label for="report-month">Mês</label>
+                <input type="month" id="report-month" name="report-month" max="" required aria-required="true" />
+                <button type="submit">Filtrar</button>
+                <p id="report-filter-error" class="error-message" role="alert" aria-live="assertive"></p>
+            </form>
+            <section aria-label="Tabela de transações filtradas">
+                <table id="report-table" role="grid" aria-describedby="report-desc" tabindex="0">
+                    <caption id="report-desc">Lista de transações filtradas por mês</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Data</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Valor (R$)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Conteúdo dinâmico -->
+                    </tbody>
+                </table>
+            </section>
+        </section>
+
+        <!-- Investments Section -->
+        <section id="investments-section" role="region" aria-label="Gerenciamento de investimentos" class="hidden" tabindex="-1">
+            <h2>Investimentos</h2>
+            <form id="investment-form" novalidate>
+                <h3>Adicionar Investimento</h3>
+
+                <label for="investment-type">Tipo</label>
+                <input type="text" id="investment-type" name="investment-type" maxlength="30" placeholder="Ex: Ações, CDB" required aria-required="true" />
+
+                <label for="investment-amount">Valor (R$)</label>
+                <input type="number" id="investment-amount" name="investment-amount" min="0.01" step="0.01" required aria-required="true" placeholder="0,00" />
+
+                <label for="investment-date">Data</label>
+                <input type="date" id="investment-date" name="investment-date" max="" required aria-required="true" />
+
+                <label for="investment-returns">Retornos (%)</label>
+                <input type="number" id="investment-returns" name="investment-returns" step="0.01" min="0" max="100" placeholder="0.00" />
+
+                <button type="submit">Adicionar</button>
+                <p id="investment-error" class="error-message" role="alert" aria-live="assertive"></p>
+            </form>
+
+
+            <section aria-label="Gráfico de investimentos">
+                <div class="chart-container">
+                <canvas id="investment-chart" role="img" aria-label="Gráfico de investimentos"></canvas>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer role="contentinfo" aria-label="Rodapé">
+        <p>© 2025 Plataforma Financeira.Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "financial-dashboard-spa",
+  "version": "1.0.0",
+  "description": "Plataforma SPA para controle financeiro com login simulado, dashboard, relatórios e investimentos usando HTML, CSS e JavaScript.",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --open=./index.html",
+    "test": "echo \"No automated tests configured. Use tests/test.html to run manual tests.\""
+  },
+  "author": "Desenvolvedor",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
